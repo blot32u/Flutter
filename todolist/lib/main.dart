@@ -1,39 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/data/tasks.dart';
+import 'package:provider/provider.dart';
+import 'package:todolist/data/tasks_collection.dart';
+import 'package:todolist/screens/all_tasks.dart';
+import 'package:todolist/screens/one_task.dart';
+import 'package:todolist/screens/create_task.dart';
 
 void main() {
-  print(TaskList.list);
-  print("je viens du main");
-  runApp(const ToDoList());
+  runApp(ChangeNotifierProvider(
+    create: (context) => TasksCollection(),
+    child: const TodoList(),
+  ));
 }
 
-class ToDoList extends StatelessWidget {
-  const ToDoList({Key key}) : super(key: key);
+class TodoList extends StatelessWidget {
+  const TodoList({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Todo List',
       theme: ThemeData(
-        fontFamily: 'SedgwickAve',
-        primarySwatch: Colors.yellow,
+        primarySwatch: Colors.teal,
+        fontFamily: 'Outfit',
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Todo List'),
-        ),
-        body: ListView.builder(
-          // Let the ListView know how many items it needs to build.
-          itemCount: TaskList.list.length,
-          // Provide a builder function. This is where the magic happens.
-          // Convert each item into a widget based on the type of item it is.
-          itemBuilder: (context, index) {
-            final item = TaskList.list[index];
-
-            return ListTile(title: Text(item.content));
-          },
-        ),
-      ),
+      initialRoute: '/all_tasks',
+      routes: {
+        '/all_tasks': (context) => const AllTasks(title: 'Liste des tâches'),
+        '/one_task': (context) => const OneTask(title: 'Modifier une tâche'),
+        '/create_task': (context) => const CreateTask(title: 'Créer une tâche'),
+      },
     );
   }
 }

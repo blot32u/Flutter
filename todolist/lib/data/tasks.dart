@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:todolist/models/task.dart';
+import 'dart:math';
+
 import 'package:faker/faker.dart';
-import 'package:todolist/models/Task.dart';
 
-main() {
-  var faker = Faker();
-}
+//Task(1, 'Task 1', false, DateTime(2022, 02, 01))
 
-class TaskList {
-  static List list = List<Task>.generate(
-      15, (int index) => Task(5, faker.person.name(), true, DateTime.now()));
-}
+var tasks = List<Task>.generate(
+    30,
+    (index) =>
+        Task(index, faker.person.name(), Random().nextBool(), DateTime.now()));
